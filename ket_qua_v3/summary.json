@@ -1,0 +1,80 @@
+{
+ "n_train": 3539,
+ "n_test": 885,
+ "dropout_test": 284,
+ "tau_star": {
+  "Dummy Prior": 0.05,
+  "Logistic Regression": 0.15,
+  "Random Forest": 0.21,
+  "CatBoost": 0.2,
+  "LightGBM": 0.06,
+  "Dummy Prior + FE": 0.05,
+  "Logistic Regression + FE": 0.16,
+  "Random Forest + FE": 0.23,
+  "CatBoost + FE": 0.14,
+  "LightGBM + FE": 0.06
+ },
+ "error_analysis": {
+  "Logistic Regression": {
+   "cm3_test": [
+    [
+     193,
+     64,
+     27
+    ],
+    [
+     28,
+     89,
+     42
+    ],
+    [
+     26,
+     79,
+     337
+    ]
+   ],
+   "FP_true_class": {
+    "Enrolled": 97,
+    "Graduate": 93
+   },
+   "FN_near_tau": 19,
+   "FN_far": 13,
+   "FN": 28
+  },
+  "CatBoost + FE": {
+   "cm3_test": [
+    [
+     193,
+     65,
+     26
+    ],
+    [
+     28,
+     98,
+     33
+    ],
+    [
+     20,
+     72,
+     350
+    ]
+   ],
+   "FP_true_class": {
+    "Enrolled": 104,
+    "Graduate": 92
+   },
+   "FN_near_tau": 27,
+   "FN_far": 7,
+   "FN": 27
+  },
+  "mcnemar_dropout_test": {
+   "base_wrong_main_right": 8,
+   "base_right_main_wrong": 7,
+   "p": 1.0
+  },
+  "FN_main_good_profile_train_oof": {
+   "n": 92,
+   "of_FN": 108
+  }
+ }
+}

@@ -1,0 +1,18 @@
+{
+  "dataset": "UCI 697 - Predict Students' Dropout and Academic Success",
+  "scenario": "T1: admission/demographic + first-semester features; no second-semester features",
+  "classes": [
+    "Dropout",
+    "Enrolled",
+    "Graduate"
+  ],
+  "dropout_thresholds": {
+    "lr": 0.15,
+    "catboost": 0.14
+  },
+  "threshold_policy": "Read from ket_qua_v3/thresholds.csv when recognized; otherwise fixed fallback 0.5",
+  "models": [
+    "Logistic Regression (Original)",
+    "CatBoost + FE"
+  ]
+}
