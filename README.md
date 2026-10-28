@@ -3,42 +3,31 @@
 Đề tài: Dự đoán và cảnh báo sớm nguy cơ bỏ học của sinh viên, bộ dữ liệu UCI 697
 (Predict Students' Dropout and Academic Success, https://archive.ics.uci.edu/dataset/697, giấy phép CC BY 4.0).
 
-`run_v3.py` sinh toàn bộ số liệu và Hình 7–15 của mục V báo cáo.
-
 ## Cài đặt
 
-Cần Python 3.12.
+Python 3.12.
 
 ```bash
 pip install numpy pandas scipy scikit-learn matplotlib catboost lightgbm ucimlrepo
 ```
 
-Phiên bản đã dùng khi chạy ra số trong báo cáo: Python 3.12.3, numpy 2.5.4, pandas 3.1.0, scipy 1.18.1,
-scikit-learn 1.9.1, matplotlib 3.11.2, catboost 1.2.10, lightgbm 4.7.0. Phiên bản khác có thể làm số lệch ở chữ số
-thứ ba.
-
-## Chạy
-
-```bash
-python run_v3.py --data data/data.csv    # đọc file data.csv kèm theo (dấu ;), không cần mạng
-python run_v3.py                         # hoặc tải dữ liệu qua ucimlrepo
-```
-
-Thời gian chạy đo ngày 27/10/2026: khoảng 4 phút trên máy 8 nhân (lệnh thứ nhất).
-
-Trên Colab: tải thư mục này lên, rồi chạy `!pip install catboost lightgbm` và
-`!python run_v3.py --data data/data.csv`. Kết quả nằm trong `ket_qua_v3/`; nhớ tải về trước khi phiên Colab kết thúc.
-
-## Giao thức (mục IV.7 của báo cáo)
+## Giao thức
 
 1. Bỏ 6 cột học kỳ 2. Chia Train/Test 80:20 phân tầng theo ba lớp (random_state = 42): Train 3.539, Test 885
-   sinh viên (284 Dropout). Test chỉ dùng ở bước 4.
+   sinh viên (284 Dropout). Test chỉ chạy 1 lần duy nhất
 2. Stratified 5-fold CV trên Train, mọi bước tiền xử lý học lại trong từng fold, lưu dự đoán out-of-fold (OOF).
 3. Mỗi cấu hình chọn ngưỡng τ* cho F2 (lớp Dropout) lớn nhất trên OOF của Train, quét 0,05–0,95, rồi khóa.
 4. Học lại trên toàn bộ Train, đánh giá Test một lần tại τ*.
 
 So sánh với Base (Logistic Regression, Original) bằng kiểm định t hiệu chỉnh Nadeau–Bengio trên 5 fold và bootstrap
 ghép cặp 1.000 lần trên Test. Không tinh chỉnh siêu tham số.
+
+## Chạy
+
+```bash
+python run_v3.py --data data/data.csv    # đọc file data.csv
+python run_v3.py                         # hoặc tải dữ liệu qua ucimlrepo
+```
 
 ## Đầu ra trong `ket_qua_v3/`
 
@@ -51,14 +40,8 @@ ghép cặp 1.000 lần trên Test. Không tinh chỉnh siêu tham số.
 | `odds_ratio.csv` | Hệ số và odds ratio của Logistic Regression nhị phân Dropout so với phần còn lại |
 | `error_groups_train_oof.csv`, `summary.json` | Phân tích lỗi: bỏ sót theo nhóm, ma trận lỗi, McNemar |
 | `oof_train_predictions.csv`, `test_predictions.csv` | p(Dropout) của từng sinh viên (cột `index` là số thứ tự dòng trong data.csv) |
-| `hinh/hinh07_…png` – `hinh/hinh15_…png` | Hình 7–15 của báo cáo |
 
-
-## Ghi chú cho demo
-
-`run_v3.py` không lưu mô hình ra file. Demo sử dụng các script riêng để tạo dữ liệu mẫu, huấn luyện và lưu mô hình, sau đó chạy giao diện Streamlit.
-
-### Chạy demo trên máy tính
+### Demo
 
 Cài đặt thêm thư viện cần thiết:
 
